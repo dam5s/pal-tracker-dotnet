@@ -18,9 +18,11 @@ namespace PalTrackerTests
         public void Create()
         {
             var expected = new TimeEntry(1, 222, 333, new DateTime(2008, 08, 01, 12, 00, 01), 24);
+            var fields = new TimeEntry(222, 333, new DateTime(2008, 08, 01, 12, 00, 01), 24);
 
-            var created = _repository.Create(new TimeEntry(222, 333, new DateTime(2008, 08, 01, 12, 00, 01), 24));
+            var created = _repository.Create(fields);
 
+            Assert.Null(fields.Id);
             Assert.Equal(expected, created);
             Assert.Equal(expected, _repository.Find(1));
         }
@@ -66,9 +68,9 @@ namespace PalTrackerTests
 
             _repository.Update(1, new TimeEntry(555, 666, new DateTime(2020, 08, 01, 01, 55, 10), 8));
 
-            var entires = _repository.List();
-            Assert.Contains(new TimeEntry(1, 555, 666, new DateTime(2020, 08, 01, 01, 55, 10), 8), entires);
-            Assert.DoesNotContain(new TimeEntry(1, 222, 333, new DateTime(2008, 08, 01, 12, 00, 01), 24), entires);
+            var entries = _repository.List();
+            Assert.Contains(new TimeEntry(1, 555, 666, new DateTime(2020, 08, 01, 01, 55, 10), 8), entries);
+            Assert.DoesNotContain(new TimeEntry(1, 222, 333, new DateTime(2008, 08, 01, 12, 00, 01), 24), entries);
         }
 
         [Fact]
