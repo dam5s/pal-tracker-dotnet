@@ -17,6 +17,9 @@ namespace PalTrackerTests
 
         public TimeEntryIntegrationTest()
         {
+            Environment.SetEnvironmentVariable("MYSQL__CLIENT__CONNECTIONSTRING", DbTestSupport.TestDbConnectionString);
+            DbTestSupport.ExecuteSql("TRUNCATE TABLE time_entries");
+
             _testClient = IntegrationTestServer.Start().CreateClient();
         }
 
@@ -63,6 +66,7 @@ namespace PalTrackerTests
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
+            Assert.Equal(2, responseBody.Count);
             Assert.Equal(id1, responseBody[0]["id"].ToObject<int>());
             Assert.Equal(222, responseBody[0]["projectId"].ToObject<long>());
             Assert.Equal(333, responseBody[0]["userId"].ToObject<long>());

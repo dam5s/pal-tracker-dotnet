@@ -7,7 +7,7 @@ namespace PalTracker
         public long? Id { get; set; }
         public long ProjectId { get; set; }
         public long UserId { get; set; }
-        public DateTime? Date { get; set; }
+        public DateTime Date { get; set; }
         public int Hours { get; set; }
 
 
