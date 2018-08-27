@@ -4,7 +4,7 @@ using Moq;
 using PalTracker;
 using Xunit;
 using static PalTracker.TimeEntryHealthContributor;
-using static Steeltoe.Management.Endpoint.Health.HealthStatus;
+using static Steeltoe.Common.HealthChecks.HealthStatus;
 
 namespace PalTrackerTests
 {

@@ -16,7 +16,7 @@ namespace PalTrackerTests
         [Fact]
         public void Increment()
         {
-            var exepectedCounts = new Dictionary<TrackedOperation, int>
+            var expectedCounts = new Dictionary<TrackedOperation, int>
             {
                 {TrackedOperation.Create, 0},
                 {TrackedOperation.Read, 3},
@@ -25,7 +25,7 @@ namespace PalTrackerTests
                 {TrackedOperation.Delete, 3}
             };
 
-            foreach (var entry in exepectedCounts)
+            foreach (var entry in expectedCounts)
             {
                 for (var i = 0; i < entry.Value; i++)
                 {
@@ -33,7 +33,7 @@ namespace PalTrackerTests
                 }
             }
 
-            Assert.Equal(exepectedCounts, _counter.GetCounts);
+            Assert.Equal(expectedCounts, _counter.GetCounts);
         }
 
         [Fact]
