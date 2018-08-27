@@ -39,6 +39,25 @@ jobs:
             echo "deb https://packages.cloudfoundry.org/debian stable main" | tee /etc/apt/sources.list.d/cloudfoundry-cli.list
             apt-get update
             apt-get install cf-cli
+      - run:
+          name: Install CF CLI
+          command: |
+            apt-get update
+            apt-get -y install apt-transport-https ca-certificates
+            wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | apt-key add -
+            echo "deb https://packages.cloudfoundry.org/debian stable main" | tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+            apt-get update
+            apt-get install cf-cli
+
+      - run:
+          name: Install jq
+          command: |
+            apt-get -y install jq
+
+      - run:
+          name: Install flyway
+          command: |
+            curl https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/5.1.4/flyway-commandline-5.1.4-linux-x64.tar.gz | tar xvz
 
       - run:
           name: Unzip artifacts
@@ -52,6 +71,7 @@ jobs:
             cd $EXTRACT_DEST
 
             cf login -a $CF_API -u $CF_USERNAME -p $CF_PASSWORD -o $CF_ORG -s $ENVIRONMENT
+            ./migrate-databases.sh pal-tracker . /root/project
             cf push -f manifest-$ENVIRONMENT.yml
 
   deployToProd:
@@ -75,6 +95,16 @@ jobs:
             apt-get install cf-cli
 
       - run:
+          name: Install jq
+          command: |
+            apt-get -y install jq
+
+      - run:
+          name: Install flyway
+          command: |
+            curl https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/5.1.4/flyway-commandline-5.1.4-linux-x64.tar.gz | tar xvz
+
+      - run:
           name: Unzip artifacts
           command: |
             mkdir -p $EXTRACT_DEST
@@ -86,6 +116,7 @@ jobs:
             cd $EXTRACT_DEST
 
             cf login -a $CF_API -u $CF_USERNAME -p $CF_PASSWORD -o $CF_ORG -s $ENVIRONMENT
+            ./migrate-databases.sh pal-tracker . /root/project
             cf push -f manifest-$ENVIRONMENT.yml
 
 workflows:
