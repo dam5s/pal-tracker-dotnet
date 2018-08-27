@@ -30,3 +30,4 @@ msbuild.wrn
 .vscode
 
 ci/variables.yml
+artifacts
